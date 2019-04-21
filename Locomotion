@@ -1,0 +1,56 @@
+#define DC_MOTOR_PIN_1 2
+#define DC_MOTOR_PIN_2 3//motor 1
+#define DC_MOTOR_PIN_3 4
+#define DC_MOTOR_PIN_4 5//motor 2
+void setup() 
+{
+  Serial.begin(9600);
+  pinMode(DC_MOTOR_PIN_1,OUTPUT);
+  pinMode(DC_MOTOR_PIN_2,OUTPUT);//for motor 1
+  pinMode(DC_MOTOR_PIN_3,OUTPUT);
+  pinMode(DC_MOTOR_PIN_4,OUTPUT);//for motor 2
+ }
+ void loop() 
+{
+  char ch = Serial.read();
+  if(ch == '1')//FORWARD
+  {
+    Serial.println("Moving Forward");
+    digitalWrite(DC_MOTOR_PIN_1,LOW);
+    digitalWrite(DC_MOTOR_PIN_2,HIGH);//for motor 1
+    digitalWrite(DC_MOTOR_PIN_3,LOW);
+    digitalWrite(DC_MOTOR_PIN_4,HIGH);//for motor 2
+  }
+  else if(ch == '2')//BACKWARD
+  {
+    Serial.println("Moving Backward");
+    digitalWrite(DC_MOTOR_PIN_1,HIGH);
+    digitalWrite(DC_MOTOR_PIN_2,LOW);//for motor 1
+    digitalWrite(DC_MOTOR_PIN_3,HIGH);
+    digitalWrite(DC_MOTOR_PIN_4,LOW);//for motor 2
+  }
+  else if(ch == '3')//RIGHT
+  {
+    Serial.println("Moving Right");
+    digitalWrite(DC_MOTOR_PIN_1,LOW);
+    digitalWrite(DC_MOTOR_PIN_2,HIGH);//for motor 1
+    digitalWrite(DC_MOTOR_PIN_3,LOW);
+    digitalWrite(DC_MOTOR_PIN_4,LOW);//for motor 2
+  }
+  else if(ch == '4')//LEFT
+  {
+    Serial.println("Moving Left");
+    digitalWrite(DC_MOTOR_PIN_1,LOW);
+    digitalWrite(DC_MOTOR_PIN_2,LOW);//for motor 1
+    digitalWrite(DC_MOTOR_PIN_3,LOW);
+    digitalWrite(DC_MOTOR_PIN_4,HIGH);//for motor 2
+  }
+  else if(ch == '5')//STOP
+  {
+    Serial.println("Stop");
+    digitalWrite(DC_MOTOR_PIN_1,LOW);
+    digitalWrite(DC_MOTOR_PIN_2,LOW);//for motor 1
+    digitalWrite(DC_MOTOR_PIN_3,LOW);
+    digitalWrite(DC_MOTOR_PIN_4,LOW);//for motor 2
+  }
+ }
