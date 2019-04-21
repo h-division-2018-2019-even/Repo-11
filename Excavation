@@ -1,0 +1,208 @@
+#define STEPPER1_PIN_1 9
+#define STEPPER1_PIN_2 10
+#define STEPPER1_PIN_3 11
+#define STEPPER1_PIN_4 12
+#define STEPPER2_PIN_1 22
+#define STEPPER2_PIN_2 24
+#define STEPPER2_PIN_3 26
+#define STEPPER2_PIN_4 28
+#define DC_MOVEMENT_PIN_1 32
+#define DC_MOVEMENT_PIN_2 30
+int step_number1 = 0;
+int step_number2 = 0;
+void setup() 
+{
+  Serial.begin(9600);
+  pinMode(DC_MOVEMENT_PIN_1,OUTPUT);
+  pinMode(DC_MOVEMENT_PIN_2,OUTPUT);
+  pinMode(STEPPER1_PIN_1,OUTPUT);
+  pinMode(STEPPER1_PIN_2,OUTPUT);
+  pinMode(STEPPER1_PIN_3,OUTPUT);
+  pinMode(STEPPER1_PIN_4,OUTPUT);
+  pinMode(STEPPER2_PIN_1,OUTPUT);
+  pinMode(STEPPER2_PIN_2,OUTPUT);
+  pinMode(STEPPER2_PIN_3,OUTPUT);
+  pinMode(STEPPER2_PIN_4,OUTPUT);
+}
+void loop() 
+{
+  char ch = Serial.read();
+   if(ch == '6')//ARMS MOVEMENT FORWARD
+  {
+    Serial.println("The axle is moving forward");
+    digitalWrite(DC_MOVEMENT_PIN_1,HIGH);
+    digitalWrite(DC_MOVEMENT_PIN_2,LOW);
+  }
+  else if(ch == '7')//AXLE BACKWARDS
+  {
+    Serial.println("The axle is moving backward");
+    digitalWrite(DC_MOVEMENT_PIN_1,LOW);
+    digitalWrite(DC_MOVEMENT_PIN_2,HIGH);
+  }
+   else if(ch == 's')//AXLE STOP
+  {
+    Serial.println("The axle is Stopped");
+    digitalWrite(DC_MOVEMENT_PIN_1,LOW);
+    digitalWrite(DC_MOVEMENT_PIN_2,LOW);
+  }
+  else if(ch=='0')//stepper 1 close
+  {
+    Serial.println("Stepper 1 open");
+    for(int a=0;a<1000;a++)
+    {
+      Serial.println("Stepper 1 is closing...");
+      OneStep(false);
+      delay(2);
+    }
+  }
+  else if(ch=='9')//stepper 1 open
+  {
+    Serial.println("Stepper 1 close");
+    for(int a=0;a<1000;a++)
+    {
+      Serial.println("Stepper 1 is opening...");
+      OneStep(true);
+      delay(2);
+    }
+  }
+  else if(ch=='a')//stepper 2 open
+  {
+    Serial.println("Stepper 2 open");
+    for(int b=0;b<1000;b++)
+    {
+      Serial.println("Stepper 2 is opening...");
+      SecondStep(false);
+      delay(2);
+    }
+  }
+  else if(ch=='b')//stepper 2 close
+  {
+    Serial.println("Stepper 2 close");
+    for(int b=0;b<1000;b++)
+    {
+      Serial.println("Stepper 2 is closing...");
+      SecondStep(true);
+      delay(2);
+    }
+  }
+}
+void OneStep(bool dir){
+    if(dir){
+switch(step_number1){
+  case 0:
+  digitalWrite(STEPPER1_PIN_1, HIGH);
+  digitalWrite(STEPPER1_PIN_2, LOW);
+  digitalWrite(STEPPER1_PIN_3, LOW);
+  digitalWrite(STEPPER1_PIN_4, LOW);
+  break;
+  case 1:
+  digitalWrite(STEPPER1_PIN_1, LOW);
+  digitalWrite(STEPPER1_PIN_2, HIGH);
+  digitalWrite(STEPPER1_PIN_3, LOW);
+  digitalWrite(STEPPER1_PIN_4, LOW);
+  break;
+  case 2:
+  digitalWrite(STEPPER1_PIN_1, LOW);
+  digitalWrite(STEPPER1_PIN_2, LOW);
+  digitalWrite(STEPPER1_PIN_3, HIGH);
+  digitalWrite(STEPPER1_PIN_4, LOW);
+  break;
+  case 3:
+  digitalWrite(STEPPER1_PIN_1, LOW);
+  digitalWrite(STEPPER1_PIN_2, LOW);
+  digitalWrite(STEPPER1_PIN_3, LOW);
+  digitalWrite(STEPPER1_PIN_4, HIGH);
+  break;
+} 
+  }else{
+    switch(step_number1){
+  case 0:
+  digitalWrite(STEPPER1_PIN_1, LOW);
+  digitalWrite(STEPPER1_PIN_2, LOW);
+  digitalWrite(STEPPER1_PIN_3, LOW);
+  digitalWrite(STEPPER1_PIN_4, HIGH);
+  break;
+  case 1:
+  digitalWrite(STEPPER1_PIN_1, LOW);
+  digitalWrite(STEPPER1_PIN_2, LOW);
+  digitalWrite(STEPPER1_PIN_3, HIGH);
+  digitalWrite(STEPPER1_PIN_4, LOW);
+  break;
+  case 2:
+  digitalWrite(STEPPER1_PIN_1, LOW);
+  digitalWrite(STEPPER1_PIN_2, HIGH);
+  digitalWrite(STEPPER1_PIN_3, LOW);
+  digitalWrite(STEPPER1_PIN_4, LOW);
+  break;
+  case 3:
+  digitalWrite(STEPPER1_PIN_1, HIGH);
+  digitalWrite(STEPPER1_PIN_2, LOW);
+  digitalWrite(STEPPER1_PIN_3, LOW);
+  digitalWrite(STEPPER1_PIN_4, LOW);
+} 
+  }
+step_number1++;
+  if(step_number1 > 3){
+    step_number1 = 0;
+  }
+}
+void SecondStep(bool dir2){
+    if(dir2){
+switch(step_number2){
+  case 0:
+  digitalWrite(STEPPER2_PIN_1, HIGH);
+  digitalWrite(STEPPER2_PIN_2, LOW);
+  digitalWrite(STEPPER2_PIN_3, LOW);
+  digitalWrite(STEPPER2_PIN_4, LOW);
+  break;
+  case 1:
+  digitalWrite(STEPPER2_PIN_1, LOW);
+  digitalWrite(STEPPER2_PIN_2, HIGH);
+  digitalWrite(STEPPER2_PIN_3, LOW);
+  digitalWrite(STEPPER2_PIN_4, LOW);
+  break;
+  case 2:
+  digitalWrite(STEPPER2_PIN_1, LOW);
+  digitalWrite(STEPPER2_PIN_2, LOW);
+  digitalWrite(STEPPER2_PIN_3, HIGH);
+  digitalWrite(STEPPER2_PIN_4, LOW);
+  break;
+  case 3:
+  digitalWrite(STEPPER2_PIN_1, LOW);
+  digitalWrite(STEPPER2_PIN_2, LOW);
+  digitalWrite(STEPPER2_PIN_3, LOW);
+  digitalWrite(STEPPER2_PIN_4, HIGH);
+  break;
+} 
+  }else{
+    switch(step_number2){
+  case 0:
+  digitalWrite(STEPPER2_PIN_1, LOW);
+  digitalWrite(STEPPER2_PIN_2, LOW);
+  digitalWrite(STEPPER2_PIN_3, LOW);
+  digitalWrite(STEPPER2_PIN_4, HIGH);
+  break;
+  case 1:
+  digitalWrite(STEPPER2_PIN_1, LOW);
+  digitalWrite(STEPPER2_PIN_2, LOW);
+  digitalWrite(STEPPER2_PIN_3, HIGH);
+  digitalWrite(STEPPER2_PIN_4, LOW);
+  break;
+  case 2:
+  digitalWrite(STEPPER2_PIN_1, LOW);
+  digitalWrite(STEPPER2_PIN_2, HIGH);
+  digitalWrite(STEPPER2_PIN_3, LOW);
+  digitalWrite(STEPPER2_PIN_4, LOW);
+  break;
+  case 3:
+  digitalWrite(STEPPER2_PIN_1, HIGH);
+  digitalWrite(STEPPER2_PIN_2, LOW);
+  digitalWrite(STEPPER2_PIN_3, LOW);
+  digitalWrite(STEPPER2_PIN_4, LOW);
+} 
+  }
+step_number2++;
+  if(step_number2 > 3){
+    step_number2 = 0;
+  }
+}
